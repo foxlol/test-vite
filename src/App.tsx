@@ -15,7 +15,7 @@ const App = () => {
     await getDocs(collection(firebaseDB, "babys"))
             .then((querySnapshot)=>{               
                 const newData = querySnapshot.docs
-                    .map((doc) => ({...doc.data() }));
+                    .map((doc) => ({...doc.data(), id: doc.id }));
 
                 setBabies(newData);                
             });
@@ -30,7 +30,7 @@ const App = () => {
       <h1>Test</h1>
       <div className="card">
         <BabyNameForm onAdd={fetchData} />
-        <BabyNameList babies={babies} />
+        <BabyNameList babies={babies} onDelete={fetchData} />
       </div>
     </>
   )
