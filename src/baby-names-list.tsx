@@ -19,8 +19,6 @@ const BabyNameList = (props: any) => {
         });
   };
 
-  console.log(props.babies);
-
   return (
     <ul style={{ paddingLeft: 0 }}>
       {props.babies.map((baby: any) => (
