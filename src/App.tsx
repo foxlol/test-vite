@@ -5,8 +5,6 @@ import firebaseDB from './firebase-db';
 import BabyNameForm from './baby-name-form'
 import BabyNameList from './baby-names-list'
 
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 const App = () => {
