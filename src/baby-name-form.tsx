@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { collection, addDoc } from 'firebase/firestore';
-import firebaseDB from './firebase-db';
+import { addBaby } from './babies-repository';
 
-const BabyNameForm = (props: any) => {
+interface BabyNameFormProps {
+  onAdd: () => void;
+}
+
+const BabyNameForm: React.FC<BabyNameFormProps> = ({ onAdd }) => {
   const [name, setName] = useState('');
 
   const handleInputChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -13,13 +16,9 @@ const BabyNameForm = (props: any) => {
     event.preventDefault();
 
     if (name.trim() !== '') {
-      await addDoc(collection(firebaseDB, 'babys'), {
-        name,
-      });
-
+      await addBaby(name);
       setName('');
-
-      props.onAdd();
+      onAdd();
     }
   };
 

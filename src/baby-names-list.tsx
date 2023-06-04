@@ -1,26 +1,26 @@
-import { collection, doc, deleteDoc } from 'firebase/firestore';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Baby from './baby';
+import { deleteBaby } from './babies-repository';
 
-import firebaseDB from './firebase-db';
+interface BabyNameListProps {
+  onDelete: () => void;
+  babies: Baby[];
+}
 
-const BabyNameList = (props: any) => {
-  const handleDelete = (id: any) => {
-    const collectionRef = collection(firebaseDB, 'babys');
-    const docRef = doc(collectionRef, id);
-
-    deleteDoc(docRef)
-      .then(() => {
-        props.onDelete();
-      })
-      .catch((error) => {
-        console.error('Error removing document: ', error);
-      });
+const BabyNameList: React.FC<BabyNameListProps> = ({ babies, onDelete }) => {
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteBaby(id);
+      onDelete();
+    } catch (error) {
+      console.error('Error removing document: ', error);
+    }
   };
 
   return (
     <ul style={{ paddingLeft: 0 }}>
-      {props.babies.map((baby: any) => (
+      {babies.map((baby: Baby) => (
         <li key={baby.id} style={{ display: 'flex', alignItems: 'center' }}>
           <span style={{ flex: 1 }}>{baby.name}</span>
           <FontAwesomeIcon

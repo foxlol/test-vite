@@ -1,36 +1,29 @@
 import { useState, useEffect } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
-import firebaseDB from './firebase-db';
+import './App.css';
+
+import Baby from './baby';
 
 import BabyNameForm from './baby-name-form';
 import BabyNameList from './baby-names-list';
-
-import './App.css';
+import { getAllBabies } from './babies-repository';
 
 const App = () => {
-  const [babies, setBabies] = useState<any>([]);
+  const [babies, setBabies] = useState<Baby[]>([]);
 
-  const fetchData = async () => {
-    await getDocs(collection(firebaseDB, 'babys')).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-
-      setBabies(newData);
-    });
+  const fetchBabies = async () => {
+    setBabies(await getAllBabies());
   };
 
   useEffect(() => {
-    fetchData();
+    fetchBabies();
   }, []);
 
   return (
     <>
-      <h1>Test</h1>
+      <h1>Baby Names</h1>
       <div className="card">
-        <BabyNameForm onAdd={fetchData} />
-        <BabyNameList babies={babies} onDelete={fetchData} />
+        <BabyNameForm onAdd={fetchBabies} />
+        <BabyNameList babies={babies} onDelete={fetchBabies} />
       </div>
     </>
   );
