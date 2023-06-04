@@ -1,22 +1,21 @@
-import { collection, doc, deleteDoc } from "firebase/firestore";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { collection, doc, deleteDoc } from 'firebase/firestore';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import firebaseDB from './firebase-db';
 
 const BabyNameList = (props: any) => {
-
   const handleDelete = (id: any) => {
-    const collectionRef = collection(firebaseDB, "babys");
+    const collectionRef = collection(firebaseDB, 'babys');
     const docRef = doc(collectionRef, id);
 
     deleteDoc(docRef)
-        .then(() => {
-            props.onDelete();
-        })
-        .catch((error) => {
-            console.error("Error removing document: ", error);
-        });
+      .then(() => {
+        props.onDelete();
+      })
+      .catch((error) => {
+        console.error('Error removing document: ', error);
+      });
   };
 
   return (
@@ -33,6 +32,6 @@ const BabyNameList = (props: any) => {
       ))}
     </ul>
   );
-}
+};
 
 export default BabyNameList;
