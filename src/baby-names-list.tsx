@@ -5,16 +5,21 @@ import { deleteBaby } from './babies-repository';
 
 interface BabyNameListProps {
   onDelete: () => void;
+  onError: (message: string) => void;
   babies: Baby[];
 }
 
-const BabyNameList: React.FC<BabyNameListProps> = ({ babies, onDelete }) => {
+const BabyNameList: React.FC<BabyNameListProps> = ({
+  babies,
+  onDelete,
+  onError,
+}) => {
   const handleDelete = async (id: string) => {
     try {
       await deleteBaby(id);
       onDelete();
     } catch (error) {
-      console.error('Error removing document: ', error);
+      onError('Error removing the baby name');
     }
   };
 

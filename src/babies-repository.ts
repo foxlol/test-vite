@@ -17,6 +17,10 @@ const getBabiesCollection = () => {
 export const getAllBabies = async (): Promise<Baby[]> => {
   const querySnapshot = await getDocs(getBabiesCollection());
 
+  if (querySnapshot.metadata.fromCache) {
+    throw new Error('Error while fetching data');
+  }
+
   return querySnapshot.docs.map(
     (doc) =>
       ({

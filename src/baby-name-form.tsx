@@ -3,9 +3,10 @@ import { addBaby } from './babies-repository';
 
 interface BabyNameFormProps {
   onAdd: () => void;
+  onError: (message: string) => void;
 }
 
-const BabyNameForm: React.FC<BabyNameFormProps> = ({ onAdd }) => {
+const BabyNameForm: React.FC<BabyNameFormProps> = ({ onAdd, onError }) => {
   const [name, setName] = useState('');
 
   const handleInputChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -15,10 +16,17 @@ const BabyNameForm: React.FC<BabyNameFormProps> = ({ onAdd }) => {
   const handleFormSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    if (name.trim() !== '') {
+    if (!name || name.trim() === '') {
+      onError('Invalid name');
+      return;
+    }
+
+    try {
       await addBaby(name);
       setName('');
       onAdd();
+    } catch (error) {
+      onError('Error while trying to add a baby name');
     }
   };
 
